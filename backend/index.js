@@ -21,6 +21,11 @@ app.use(cors(coreoption));
 
 const PORT = process.env.PORT || 3000;
 
+app.use("/hello", (req , res)=>{
+     
+     res.send("server is succesfully ")
+})
+
 app.listen(PORT, () => {
     connectdb();
     console.log(`Server is running on port ${PORT}`);
