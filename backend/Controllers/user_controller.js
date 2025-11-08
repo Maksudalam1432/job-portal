@@ -107,23 +107,24 @@ export const logout = async (req, res) => {
    
         const{FullName ,email,phoneNumber,bio,skills}=req.body;
 
-        if(!FullName || !email ||!phoneNumber ||!bio ||!skills){
-           res.status(400).json({message:"something is missing "})
-        }
+       
+let skillsArray
+  if(skills){
 
- const skillsArray=skills.split(" ,")
+    skillsArray=skills.split(" ,")
+  }        
  const userid=req.id;
- let user=await User.findOne(userid)
+ let user=await User.findById(userid)
 
  if(!user){
   res.status(400).json({message:"user not found"})
  }
 
- user.FullName=FullName,
- user.email=email,
- user.phoneNumber=phoneNumber,
- user.profile.bio=bio,
- user.profile.skills=skillsArray
+ if(FullName) user.FullName=FullName
+ if(email) user.email=email
+ if(phoneNumber) user.phoneNumber=phoneNumber
+ if(skills) user.profile.bio=bio
+ if(skills) user.profile.skills=skillsArray
 
    await user.save()
      user={

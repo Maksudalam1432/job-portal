@@ -1,27 +1,33 @@
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
-const companyschema = new mongoose.Schema({
-  name: {
-    Type: String,
-    required: true,
+const companySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    description: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    logo: {
+      type: String,
+      default: ""
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    }
   },
-  description: {
-    Type: String
-  
-  },
-  website: {
-    Type: String
-     },
-  location: {
-    Type: String
-  },
-  logo:{
-    Type:String
-      },
-      userId:{
-        Type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-      }
-},{timestamps:true});
+  { timestamps: true }
+);
 
+const Company = mongoose.model("Company", companySchema);
+export default Company;

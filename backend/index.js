@@ -1,9 +1,11 @@
-import express, { Router } from "express";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectdb from "./config/db.js";
 import route from "./routes/user.route.js";
+import companyroute from "./routes/company.route.js";
+
 dotenv.config();
 
 const app = express();
@@ -12,18 +14,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const coreoption = {
+app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
-};
-
-app.use(cors(coreoption));
+}));
 
 const PORT = process.env.PORT || 3000;
 
-app.use("/",route)
+app.use("/api/v1/user", route);
+app.use("/api/v1/company", companyroute);
+
+connectdb();
 
 app.listen(PORT, () => {
-  connectdb();
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
