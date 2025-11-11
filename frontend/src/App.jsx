@@ -1,9 +1,5 @@
-import React from 'react'
+import { Button } from "@/components/ui/button";
 
-function App() {
-  return (
-    <div className='bg-red-200'>App</div>
-  )
+export default function App() {
+  return <Button  >Click Me</Button>;
 }
-
-export default App
