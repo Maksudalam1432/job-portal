@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 function Navbar() {
     const user=false;
   return (
-    <div className='p-6 bg-white shadow-md'>
+    <div className='p-4 bg-white shadow-md'>
 
       <div className='flex justify-between '>
 
@@ -22,11 +22,11 @@ function Navbar() {
         <ul className='hidden md:flex gap-5 font-medium cursor-pointer'>
           <li className='hover:text-blue-600'>HOME</li>
           <li className='hover:text-blue-600'>JOBS</li>
-          <li className='hover:text-blue-600'>BROWSE</li>
+          <li className='hover:text-blue-600'>BROWSER</li>
         </ul>
 
      {
-         !user ? (
+        !user ? (
            <div className="flex gap-3">
   <Link to="/login"><Button className="bg-blue-500 hover:bg-blue-600 text-white">Login</Button> </Link>
 
