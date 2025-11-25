@@ -4,11 +4,13 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectdb from "./config/db.js";
 import route from "./routes/user.route.js";
+dotenv.config();
+
 import companyroute from "./routes/company.route.js";
+
 import jobroute from "./routes/job.route.js";
 import routes from "./routes/application.route.js";
 
-dotenv.config();
 
 const app = express();
 

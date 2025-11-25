@@ -3,6 +3,11 @@ import Navbar from '../sharad/Navbar'
 import { Label } from '../ui/label'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../ui/button'
+import axios from 'axios'
+import { toast } from 'sonner'
+
+// NEW IMPORT 👇
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 function Signup() {
   const navigate = useNavigate()
@@ -11,34 +16,83 @@ function Signup() {
     fullname: "",
     email: "",
     password: "",
-    phonenumber: "",
+    phoneNumber: "",
     role: "",
     file: null
   })
 
+  // SHOW/HIDE PASSWORD
+  const [showPassword, setShowPassword] = useState(false)
 
   const ChangeEventhandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value })
   }
 
-
   const Changefilehandler = (e) => {
     setInput({ ...input, file: e.target.files?.[0] })
   }
 
-  const submithandle = (e) => {
+  const submithandle = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", input)  
+    
+    const fromdata = new FormData()
+    fromdata.append("fullname", input.fullname)
+    fromdata.append("email", input.email)
+    fromdata.append("password", input.password)
+    fromdata.append("phoneNumber", input.phoneNumber)
+    fromdata.append("role", input.role)
+
+    if (input.file) {
+      fromdata.append("file", input.file)
+    }
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/user/signup",
+        fromdata,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true
+        }
+      );
+
+      if (res.data.success) {
+        navigate("/login")
+        toast.success(res.data.message)
+      }
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response?.data?.message || "Something went wrong")
+    }
   }
 
   return (
     <div>
       <Navbar />
 
-      <div className="min-h-[calc(100vh-70px)] flex justify-center items-center bg-gray-200">
-        <form onSubmit={submithandle} className="bg-white w-full max-w-md flex flex-col gap-5 p-6 rounded-lg shadow-md">
+      {/* Background Section */}
+      <div className="min-h-screen w-full relative flex justify-center items-center px-4">
+        
+        {/* Gradient Background */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            background:
+              "radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #7c3aed 100%)",
+          }}
+        />
 
-          <h1 className="text-xl font-bold text-center">SIGNUP</h1>
+        {/* Signup Card */}
+        <form 
+          onSubmit={submithandle} 
+          className="relative z-10 bg-white w-full max-w-md flex flex-col gap-5 p-6 
+          rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.25)] 
+          hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] 
+          transition-all duration-300 backdrop-blur-md bg-opacity-90"
+        >
+
+          <h1 className="text-2xl font-bold text-center">SIGNUP</h1>
 
           <input
             type="text"
@@ -58,29 +112,41 @@ function Signup() {
             className="border h-10 rounded-md px-4"
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={input.password}
-            name='password'
-            onChange={ChangeEventhandler}
-            className="border h-10 rounded-md px-4"
-          />
+          {/* PASSWORD WITH EYE */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={input.password}
+              name='password'
+              onChange={ChangeEventhandler}
+              className="border h-10 rounded-md px-4 w-full pr-10"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-2 cursor-pointer text-gray-600"
+            >
+              {showPassword ? <FiEyeOff size={22} /> : <FiEye size={22} />}
+            </button>
+          </div>
 
           <input
             type="text"
             placeholder="Phone Number"
-            value={input.phonenumber}
-            name='phonenumber'
+            value={input.phoneNumber}
+            name='phoneNumber'
             onChange={ChangeEventhandler}
             className="border h-10 rounded-md px-4"
           />
 
+          {/* Role + File */}
           <div className="flex flex-col">
             <Label className="font-semibold mb-2">Select Role</Label>
 
             <div className="flex gap-8">
-             
+
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
@@ -132,4 +198,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default Signup;

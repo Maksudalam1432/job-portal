@@ -1,24 +1,37 @@
 import Job from "../model/Job_model.js";
 
-
-
 import mongoose from "mongoose";
 
 export const postJob = async (req, res) => {
   try {
     const {
-      title, description, requirements, salary, location, jobType, experienceLevel, position, company
+      title,
+      description,
+      requirements,
+      salary,
+      location,
+      jobType,
+      experienceLevel,
+      position,
+      company,
     } = req.body;
 
     const userId = req.id;
 
     if (
-      !title || !description || !requirements || !salary || !location ||
-      !jobType || !experienceLevel || !position || !company
+      !title ||
+      !description ||
+      !requirements ||
+      !salary ||
+      !location ||
+      !jobType ||
+      !experienceLevel ||
+      !position ||
+      !company
     ) {
       return res.status(400).json({
         success: false,
-        message: "Something is missing."
+        message: "Something is missing.",
       });
     }
 
@@ -31,26 +44,23 @@ export const postJob = async (req, res) => {
       location,
       jobType,
       position,
-      company: new mongoose.Types.ObjectId(company),      // ✅ FIX
-      created_by: new mongoose.Types.ObjectId(userId)     // ✅ FIX
+      company: new mongoose.Types.ObjectId(company), 
+      created_by: new mongoose.Types.ObjectId(userId), 
     });
 
     return res.status(201).json({
       success: true,
       message: "Job posted successfully.",
-      job
+      job,
     });
-
   } catch (error) {
     console.log("Post Job Error:", error);
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error"
+      message: "Internal Server Error",
     });
   }
 };
-
-
 
 export const getalljobs = async (req, res) => {
   try {
@@ -59,34 +69,34 @@ export const getalljobs = async (req, res) => {
     const query = {
       $or: [
         { title: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } }
-      ]
+        { description: { $regex: keyword, $options: "i" } },
+      ],
     };
 
-    const jobs = await Job.find(query).populate({
-        path:"company"
-    }).sort({createdAt:-1});
+    const jobs = await Job.find(query)
+      .populate({
+        path: "company",
+      })
+      .sort({ createdAt: -1 });
 
     if (jobs.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Jobs not found."
+        message: "Jobs not found.",
       });
     }
 
     return res.status(200).json({
       success: true,
-      jobs
+      jobs,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error"
+      message: "Internal Server Error",
     });
   }
 };
-
 
 export const getJobById = async (req, res) => {
   try {
@@ -97,20 +107,19 @@ export const getJobById = async (req, res) => {
     if (!job) {
       return res.status(404).json({
         success: false,
-        message: "Job not found."
+        message: "Job not found.",
       });
     }
 
     return res.status(200).json({
       success: true,
-      job
+      job,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error"
+      message: "Internal Server Error",
     });
   }
 };
@@ -123,19 +132,18 @@ export const getAdminJobs = async (req, res) => {
     if (jobs.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Jobs not found."
+        message: "Jobs not found.",
       });
     }
 
     return res.status(200).json({
       success: true,
-      jobs
+      jobs,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error"
+      message: "Internal Server Error",
     });
   }
 };
