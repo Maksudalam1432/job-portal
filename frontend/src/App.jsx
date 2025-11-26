@@ -5,6 +5,9 @@ import Navbar from './components/sharad/Navbar'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Home from './components/Home'
+import Job from './components/Browers/Job'
+import Browers from './components/Browers'
+
 
 const approuter=createBrowserRouter([
 
@@ -20,6 +23,14 @@ const approuter=createBrowserRouter([
    {
     path:"/login",
     element:<Login/>
+  },
+   {
+    path:"/job",
+    element:<Job/>
+  },
+   {
+    path:"/Browers",
+    element:<Browers/>
   }
   
 ])
