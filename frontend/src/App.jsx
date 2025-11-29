@@ -5,7 +5,7 @@ import Navbar from './components/sharad/Navbar'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Home from './components/Home'
-import Job from './components/Browers/Job'
+import Job from './components/Jobs/Job'
 import Browers from './components/Browers'
 
 
