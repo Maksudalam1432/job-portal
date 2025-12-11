@@ -7,7 +7,7 @@ import { LogOut, User2, Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const user = false;
+  const user = true;
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
