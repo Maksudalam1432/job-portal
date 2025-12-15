@@ -7,6 +7,8 @@ import Signup from './components/auth/Signup'
 import Home from './components/Home'
 import Job from './components/Jobs/Job'
 import Browers from './components/Browers'
+import Profile from './components/Profile'
+import Details from './components/Details'
 
 
 const approuter=createBrowserRouter([
@@ -31,6 +33,14 @@ const approuter=createBrowserRouter([
    {
     path:"/Browers",
     element:<Browers/>
+  },
+   {
+    path:"/Profile",
+    element:<Profile/>
+  },
+   {
+    path:"/details/:id",
+    element:<Details/>
   }
   
 ])

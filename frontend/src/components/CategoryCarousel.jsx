@@ -30,15 +30,15 @@ function CategoryCarousel() {
               key={index}
               className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-auto flex justify-center"
             >
-              <Button className="bg-white border border-gray-300 hover:bg-violet-600 hover:text-white text-gray-700 rounded-full px-6 py-3 transition text-sm shadow-sm whitespace-nowrap">
+              <Button className="bg-white border border-gray-300 hover:bg-blue-600 hover:text-white text-gray-700 rounded-full px-6 py-3 transition text-sm shadow-sm whitespace-nowrap">
                 {item}
               </Button>
             </CarouselItem>
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="hidden sm:flex bg-violet-600 text-white hover:bg-violet-700 shadow-lg rounded-full" />
-        <CarouselNext className="hidden sm:flex bg-violet-600 text-white hover:bg-violet-700 shadow-lg rounded-full" />
+        <CarouselPrevious className="hidden sm:flex bg-blue-600 text-white hover:bg-blue-700 shadow-lg rounded-full" />
+        <CarouselNext className="hidden sm:flex bg-blue-600 text-white hover:bg-blue-700 shadow-lg rounded-full" />
       </Carousel>
     </div>
   );

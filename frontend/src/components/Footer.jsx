@@ -1,8 +1,11 @@
 import React from 'react'
+import Navbar from './sharad/Navbar'
 
 function Footer() {
   return (
-    <div>Footer</div>
+    <div>
+      
+    </div>
   )
 }
 

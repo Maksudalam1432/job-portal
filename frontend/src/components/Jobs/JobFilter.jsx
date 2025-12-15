@@ -59,9 +59,7 @@ function JobFilter() {
         </div>
       </div>
 
-      <button className="w-full bg-violet-600 hover:bg-violet-700 text-white py-2 rounded-md transition">
-        Apply Filter
-      </button>
+   
     </div>
   );
 }
