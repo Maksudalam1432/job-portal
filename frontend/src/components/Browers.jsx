@@ -90,7 +90,7 @@ function Browers() {
                 </span>
               </div>
 
-              <button className="w-full bg-violet-600 text-white py-2 rounded-lg mt-5 hover:bg-violet-700 transition flex items-center justify-center gap-2">
+              <button className="w-full bg-blue-400 text-white py-2 rounded-lg mt-5 hover:bg-blue-600 transition flex items-center justify-center gap-2">
                 <Briefcase size={18} /> Apply Now
               </button>
             </div>

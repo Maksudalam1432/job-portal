@@ -25,7 +25,7 @@ function HeroSection() {
             placeholder="Search for jobs..."
             className="flex-1 px-5 py-3 text-base outline-none"
           />
-          <button className="bg-violet-600 px-6 py-4 text-white hover:bg-violet-700 transition flex justify-center items-center">
+          <button className="bg-gray-500 px-6 py-4 text-white hover:bg-gray-700  transition flex justify-center items-center">
             <FaSearch size={20} />
           </button>
         </div>

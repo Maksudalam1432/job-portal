@@ -5,9 +5,12 @@ import md from "@/assets/md.jpg";
 import { Button } from "../ui/button";
 import { LogOut, User2, Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import store from "@/redux/store";
 
 function Navbar() {
-  const user = true;
+  
+  const {user}=useSelector(store=>store.auth)
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {

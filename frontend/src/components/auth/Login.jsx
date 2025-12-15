@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../sharad/Navbar";
 import { Label } from "../ui/label";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -7,7 +6,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "@/redux/authslice";
+import { setLoading, setUser } from "@/redux/authslice";
 import { Loader2 } from "lucide-react";
 
 function Login() {
@@ -23,12 +22,22 @@ function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const ChangeEventhandler = (e) => {
+  const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const submithandle = async (e) => {
+  const clearInputs = () => {
+    setInput({ email: "", password: "", role: "" });
+    setShowPassword(false);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!input.email || !input.password || !input.role) {
+      toast.error("Please fill email, password and select a role.");
+      return;
+    }
 
     try {
       dispatch(setLoading(true));
@@ -39,12 +48,22 @@ function Login() {
         { withCredentials: true }
       );
 
-      if (res.data.success) {
-        toast.success(res.data.message);
+      if (res.data?.success) {
+        dispatch(setUser(res.data.user));
+        toast.success(`Welcome back, ${res.data.user?.name || "User"}`);
+        clearInputs();
         navigate("/");
+      } else {
+        toast.error(res.data?.message || "Login failed");
+        clearInputs();
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
+      const msg =
+        error?.response?.data?.message ||
+        error.message ||
+        "Login failed";
+      toast.error(msg);
+      clearInputs();
     } finally {
       dispatch(setLoading(false));
     }
@@ -52,8 +71,6 @@ function Login() {
 
   return (
     <div className="w-full">
-      <Navbar />
-
       <div className="min-h-screen w-full flex justify-center items-center px-4">
         <div
           className="absolute inset-0 z-0"
@@ -64,7 +81,7 @@ function Login() {
         />
 
         <form
-          onSubmit={submithandle}
+          onSubmit={handleSubmit}
           className="relative z-10 bg-white w-full max-w-md flex flex-col gap-5 p-6 rounded-lg shadow-xl backdrop-blur-md bg-opacity-90"
         >
           <h1 className="text-2xl font-bold text-center">Login</h1>
@@ -74,7 +91,7 @@ function Login() {
             placeholder="Email"
             value={input.email}
             name="email"
-            onChange={ChangeEventhandler}
+            onChange={handleChange}
             className="border h-12 rounded-md px-4 w-full"
           />
 
@@ -84,7 +101,7 @@ function Login() {
               placeholder="Password"
               value={input.password}
               name="password"
-              onChange={ChangeEventhandler}
+              onChange={handleChange}
               className="border h-12 rounded-md px-4 w-full pr-12"
             />
 
@@ -107,7 +124,7 @@ function Login() {
                   name="role"
                   value="student"
                   checked={input.role === "student"}
-                  onChange={ChangeEventhandler}
+                  onChange={handleChange}
                   className="w-4 h-4"
                 />
                 Student
@@ -119,7 +136,7 @@ function Login() {
                   name="role"
                   value="recruiter"
                   checked={input.role === "recruiter"}
-                  onChange={ChangeEventhandler}
+                  onChange={handleChange}
                   className="w-4 h-4"
                 />
                 Recruiter
@@ -145,7 +162,7 @@ function Login() {
             </Button>
           )}
 
-          <p className="text-blue-600 text-center underline text-sm cursor-pointer">
+          <p className="text-blue-600 text-center underline text-sm">
             <button type="button" onClick={() => navigate("/signup")}>
               Create an account? Signup
             </button>
